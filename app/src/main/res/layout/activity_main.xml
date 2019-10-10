@@ -6,6 +6,8 @@
     android:gravity="center"
     android:orientation="vertical">
 
+
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,8 +19,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:background="@color/white_bg"
-            android:onClick="onClick"
-            />
+            android:onClick="onClick" />
 
         <Button
             android:id="@+id/btn2"
@@ -26,8 +27,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:background="@color/white_bg"
-            android:onClick="onClick"
-            />
+            android:onClick="onClick" />
 
         <Button
             android:id="@+id/btn3"
@@ -35,8 +35,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:background="@color/white_bg"
-            android:onClick="onClick"
-            />
+            android:onClick="onClick" />
     </TableRow>
 
     <TableRow
@@ -104,4 +103,13 @@
             android:onClick="onClick"
             />
     </TableRow>
+
+    <Button
+        android:id="@+id/btnReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white_bg"
+        android:layout_margin="20dp"
+        android:text="Reset"
+        android:onClick="onReset"/>
 </TableLayout>
