@@ -7,14 +7,34 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import kotlin.collections.HashMap
 
-val allAvailableIds = LinkedList<String>();
+
 class MainActivity : AppCompatActivity() {
+
+    val allAvailableIds = LinkedList<String>();
+    private var mFIrebaseInstance:FirebaseAnalytics?=null
+    private var database : FirebaseDatabase?=null;
+    private var mRef: DatabaseReference? = null
+    private var mAuth: FirebaseAuth? = null
+    private var myEmail:String?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        database = FirebaseDatabase.getInstance()
+        mRef = database!!.reference
+        mAuth = FirebaseAuth.getInstance();
+
+        myEmail = intent.extras.getString("email")
+
+        mFIrebaseInstance =  FirebaseAnalytics.getInstance(this);
 
         allAvailableIds.add(btn1.id.toString())
         allAvailableIds.add(btn2.id.toString())
@@ -26,6 +46,10 @@ class MainActivity : AppCompatActivity() {
         allAvailableIds.add(btn8.id.toString())
     }
 
+    override fun onStart() {
+        super.onStart()
+        incomingCall()
+    }
     fun onClick(view: View) {
 
 //        when (view.id) {
@@ -208,7 +232,45 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
 
+    fun onInvite(view:View){
+        val emailFriend = edRequest.text.toString()
 
+        mRef!!.child("Users").
+                child(splitNameFromEmail(emailFriend)).child("Request").push().setValue(myEmail)
+    }
+    fun splitNameFromEmail(email:String?):String{
+        return email!!.split("@")[0]
+    }
+    fun onAccept(view:View){
+    var friendEmail = edRequest.text.toString()
+        mRef!!.child("Users").child(splitNameFromEmail(friendEmail)).child("Request").push().setValue(myEmail)
+    }
+
+    var number = 0
+    fun incomingCall(){
+        mRef!!.child("Users").child(myEmail!!).child("Request").addValueEventListener(
+                object :ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        Log.e("DataSnapshot", "" + p0)
+                        val dataMap = p0.value as HashMap<String,Any>
+                        if(dataMap!=null)
+                        {
+                            for(key in dataMap.keys)
+                            {
+                                edRequest.setText(dataMap[key].toString())
+                                mRef!!.child("Users").child(myEmail!!).child("Request").setValue(true)
+                                NotificationClass().NotifyUser(applicationContext,"Request from a friend",number)
+                                break
+                            }
+                        }
+                    }
+                }
+        )
     }
 }

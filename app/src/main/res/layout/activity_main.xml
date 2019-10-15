@@ -1,12 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
     android:gravity="center"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/edRequest"
+            android:hint="Enter Friends email"
+            android:inputType="textEmailAddress"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_marginRight="5dp"
+            android:layout_height="50dp" />
 
+        <Button
+            android:background="@color/blue_bg"
+            android:text="Invite"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/btnInvite"
+            android:onClick="onInvite"
+            android:layout_weight="0.5"/>
+        <Button
+            android:background="@color/green_bg"
+            android:text="Accept"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/btnAccept"
+            android:onClick="onAccept"
+            android:layout_weight="0.5"/>
+    </LinearLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
     <TableRow
         android:layout_width="match_parent"
@@ -112,4 +151,5 @@
         android:layout_margin="20dp"
         android:text="Reset"
         android:onClick="onReset"/>
-</TableLayout>
+    </TableLayout>
+</LinearLayout>
